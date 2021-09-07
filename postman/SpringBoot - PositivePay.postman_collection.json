@@ -1,0 +1,333 @@
+{
+	"info": {
+		"_postman_id": "b1390466-4c28-48eb-b604-918e12e56cf1",
+		"name": "SpringBoot - PositivePay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "OCB Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));",
+							"postman.setEnvironmentVariable(\"CsrfToken\",postman.getResponseHeader('x-csrf-token'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Id\": \"\",\n    \"UserName\": \"sbhosale\",\n    \"AppType\": \"Consumers\",\n    \"ChannelType\": \"Web\",\n    \"Password\": \"Sap#2021\",\n    \"UserLocale\": {\n        \"Country\": \"US\",\n        \"Language\": \"en\"\n    }\n}"
+				},
+				"url": {
+					"raw": "http://ec2-54-179-27-249.ap-southeast-1.compute.amazonaws.com:8080/platform-web/odata/ns/authenticationservice/SecureUsers?action=init",
+					"protocol": "http",
+					"host": [
+						"ec2-54-179-27-249",
+						"ap-southeast-1",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"platform-web",
+						"odata",
+						"ns",
+						"authenticationservice",
+						"SecureUsers"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "init"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Positive Pays",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "TokenKey",
+						"value": "{{TokenKey}}",
+						"type": "text"
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{CsrfToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/positivepays",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"positivepays"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Positive Pays By Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "TokenKey",
+						"value": "{{TokenKey}}",
+						"type": "text"
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{CsrfToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/positivepays/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"positivepays",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save PositivePay",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{TokenKey}}",
+						"type": "text"
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{CsrfToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accountNumber\" : \"223223\",\n    \"issuerName\" : \"Sachin Bhosale\",\n    \"chequeNumber\" : \"234234\",\n    \"chequeBeneficiaryName\" : \"Manoja Bhosale\",\n    \"chequeAmount\" : 10000,\n    \"chequeIssueDate\" : \"2021-01-01\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/positivepays",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"positivepays"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update PositivePay",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "TokenKey",
+						"type": "text",
+						"value": "{{TokenKey}}"
+					},
+					{
+						"key": "x-csrf-token",
+						"type": "text",
+						"value": "{{CsrfToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accountNumber\" : \"111111\",\n    \"chequeNumber\": \"555555\",\n    \"chequeAmount\": 50000.00,\n    \"chequeIssueDate\": \"2021-02-02T00:00:00.000+00:00\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/positivepays/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"positivepays",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Positive Pay",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CsrfToken}}",
+						"type": "text"
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{TokenKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/positivepays/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"positivepays",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OCB Logout",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "TokenKey",
+						"value": "{{TokenKey}}",
+						"type": "text"
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{CsrfToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"__metadata\": {\n        \"id\": \"http://ec2-54-179-27-249.ap-southeast-1.compute.amazonaws.com:8080/platform-web/odata/ns/authenticationservice/SecureUsers('ZW5jezdkNDU1ZTVjMmM0NmY0MjYxNzFhYThkM2FlYzMyNWZmfQ')\",\n        \"uri\": \"http://ec2-54-179-27-249.ap-southeast-1.compute.amazonaws.com:8080/platform-web/odata/ns/authenticationservice/SecureUsers('ZW5jezdkNDU1ZTVjMmM0NmY0MjYxNzFhYThkM2FlYzMyNWZmfQ')\",\n        \"type\": \"com.sap.banking.common.endpoint.v1_0.beans.SecureUser\"\n    },\n    \"AffiliateID\": \"1\",\n    \"AppType\": \"Consumers\",\n    \"BankID\": \"1000\",\n    \"BaseCurrency\": \"USD\",\n    \"BusinessCIF\": null,\n    \"BusinessCustId\": null,\n    \"BusinessID\": 0,\n    \"BusinessName\": null,\n    \"ChannelType\": \"Web\",\n    \"CurrentMfaType\": \"1\",\n    \"EntitlementID\": 1206,\n    \"ServicePackageId\": \"49\",\n    \"Id\": \"ZW5jezdkNDU1ZTVjMmM0NmY0MjYxNzFhYThkM2FlYzMyNWZmfQ\",\n    \"NeedToAcceptTerms\": false,\n    \"CarrierTermsAccepted\": true,\n    \"Password\": \"\",\n    \"UserProfileID\": \"ZW5jezBlOWRjMmZkMjAyYWNjMDZmNWQyZTNkZDhkZDU5YTU3fQ\",\n    \"ProfileID\": 0,\n    \"SmallBusinessUser\": false,\n    \"WalletUser\": false,\n    \"DaBusinessUser\": false,\n    \"UserLocale\": {\n        \"__metadata\": {\n            \"type\": \"com.sap.banking.common.endpoint.v1_0.beans.UserLocale\"\n        },\n        \"Country\": \"US\",\n        \"DateFormat\": \"MM/dd/yyyy\",\n        \"DateFormatName\": \"MM/dd/yyyy\",\n        \"DateTimeFormat\": \"MM/dd/yyyy HH:mm\",\n        \"DateTimeFormatName\": \"MM/dd/yyyy HH:mm\",\n        \"Language\": \"en\",\n        \"Locale\": \"en_US\",\n        \"LocaleName\": null,\n        \"TimeFormat\": \"HH:mm\",\n        \"TimeFormatName\": \"HH:mm\",\n        \"ZoneFormat\": \"z\",\n        \"ZoneFormatName\": \"z\"\n    },\n    \"UserName\": \"sbhosale\",\n    \"UserType\": 1,\n    \"BPWFIID\": \"1003\",\n    \"DeviceId\": null,\n    \"MultifactorInfo\": {\n        \"__deferred\": {\n            \"uri\": \"http://ec2-54-179-27-249.ap-southeast-1.compute.amazonaws.com:8080/platform-web/odata/ns/authenticationservice/SecureUsers('ZW5jezdkNDU1ZTVjMmM0NmY0MjYxNzFhYThkM2FlYzMyNWZmfQ')/MultifactorInfo\"\n        }\n    }\n}"
+				},
+				"url": {
+					"raw": "http://ec2-54-179-27-249.ap-southeast-1.compute.amazonaws.com:8080/platform-web/odata/services/authenticationservice/SecureUsers?action=logout&TokenKey={{TokenKey}}",
+					"protocol": "http",
+					"host": [
+						"ec2-54-179-27-249",
+						"ap-southeast-1",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"platform-web",
+						"odata",
+						"services",
+						"authenticationservice",
+						"SecureUsers"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "logout"
+						},
+						{
+							"key": "TokenKey",
+							"value": "{{TokenKey}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// pm.collectionVariables.set(\"TokenKey\", \"RkZJSEFTSEJCNjdmU1JBdG85VUZQNW9Fd1QzUXpYMEttS01Qb21tQjYwcVNJYlZWZTA9\");",
+					"// pm.collectionVariables.set(\"CsrfToken\", \"3535869770846870476\");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "TokenKey",
+			"value": ""
+		},
+		{
+			"key": "CsrfToken",
+			"value": ""
+		}
+	]
+}

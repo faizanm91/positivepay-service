@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ocb-aws-configmap
+data:
+  ocb_authentication_service_url: "http://ec2-54-179-27-249.ap-southeast-1.compute.amazonaws.com:8080/platform-web/odata/ns/authenticationservice"
+  ocb_accounts_service_url: "http://ec2-54-179-27-249.ap-southeast-1.compute.amazonaws.com:8080/platform-web/odata/services/accountservice"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocb-positivepay-service
+  labels:
+    app: ocb-positivepay
+spec:
+  selector:
+    app: ocb-positivepay
+  ports:
+    - name: http
+      port: 8080
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ocb-positivepay-deployment
+  labels:
+    app: ocb-positivepay
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ocb-positivepay
+  template:
+    metadata:
+      labels:
+        app: ocb-positivepay
+    spec:
+      containers:
+        - name: nginx
+          image: docker.io/ocbdeveloper/positivepay:v1.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: OCB_AUTHENTICATION_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ocb-aws-configmap
+                  key: ocb_authentication_service_url
+            - name: OCB_ACCOUNTS_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ocb-aws-configmap
+                  key: ocb_accounts_service_url
+          livenessProbe:
+            httpGet:
+              path: "/actuator/health"
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: "/actuator/health"
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 10

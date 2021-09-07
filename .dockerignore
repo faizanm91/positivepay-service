@@ -1,0 +1,10 @@
+.idea
+.mvn
+src
+target/classes
+target/generated-sources
+target/generated-test-sources
+target/maven-archiver
+target/surefire-reports
+test-classes
+positivepay-service-1.0.0-SNAPSHOT.jar.original

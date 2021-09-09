@@ -12,7 +12,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - run: mvn clean package -f pom.xml
-      - run: mkdir target && cp target/*.jar target
+#       - run: mkdir target && cp target/*.jar target
       - uses: actions/upload-artifact@v2
         with:
           name: Package
